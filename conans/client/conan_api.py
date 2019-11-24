@@ -196,8 +196,11 @@ class ConanApp(object):
 
     def load_remotes(self, remote_name=None, update=False, check_updates=False):
         remotes = self.cache.registry.load_remotes()
-        if remote_name:
-            remotes.select(remote_name)
+        if remote_name is not None:
+            if remote_name:
+                remotes.select(remote_name)
+            else:
+                remotes.clear()
         self.python_requires.enable_remotes(update=update, check_updates=check_updates,
                                             remotes=remotes)
         return remotes
