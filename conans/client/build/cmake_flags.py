@@ -119,13 +119,13 @@ def runtime_definition(runtime):
     return {runtime_definition_var_name: "/%s" % runtime} if runtime else {}
 
 
-def build_type_definition(build_type, generator):
-    if build_type and not is_multi_configuration(generator):
+def build_type_definition(build_type, generator, conan_generators):
+    if build_type and (not "cmake_multi" in conan_generators or not is_multi_configuration(generator, generators)):
         return {"CMAKE_BUILD_TYPE": build_type}
     return {}
 
-def configuration_types_definition(build_type, generator):
-    if build_type and not is_multi_configuration(generator):
+def configuration_types_definition(build_type, generator, conan_generators):
+    if build_type and (not "cmake_multi" in conan_generators or not is_multi_configuration(generator, generators)):
         return {"CMAKE_CONFIGURATION_TYPES": build_type}
     return {}
 
@@ -292,8 +292,8 @@ class CMakeDefinitionsBuilder(object):
                               "type ('%s')" % (self._forced_build_type, build_type))
             build_type = self._forced_build_type
 
-        definitions.update(build_type_definition(build_type, self._generator))
-        definitions.update(configuration_types_definition(build_type, self._generator))
+        definitions.update(build_type_definition(build_type, self._generator, self._conanfile.generators))
+        definitions.update(configuration_types_definition(build_type, self._generator, self._conanfile.generators))
 
         if str(os_) == "Macos":
             if arch == "x86":
