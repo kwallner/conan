@@ -124,6 +124,10 @@ def build_type_definition(build_type, generator):
         return {"CMAKE_BUILD_TYPE": build_type}
     return {}
 
+def configuration_types_definition(build_type, generator):
+    if build_type and not is_multi_configuration(generator):
+        return {"CMAKE_CONFIGURATION_TYPES": build_type}
+    return {}
 
 class CMakeDefinitionsBuilder(object):
 
@@ -288,6 +292,7 @@ class CMakeDefinitionsBuilder(object):
             build_type = self._forced_build_type
 
         definitions.update(build_type_definition(build_type, self._generator))
+        definitions.update(configuration_types_definition(build_type, self._generator))
 
         if str(os_) == "Macos":
             if arch == "x86":
