@@ -54,7 +54,7 @@ class ConanProxy(object):
         metadata = layout.load_metadata()
         cur_revision = metadata.recipe.revision
         cur_remote = metadata.recipe.remote
-        cur_remote = remotes[cur_remote] if cur_remote else None
+        cur_remote = remotes[cur_remote] if cur_remote and cur_remote in remotes else None
         selected_remote = remotes.selected or cur_remote
 
         check_updates = check_updates or update
