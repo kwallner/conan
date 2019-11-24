@@ -282,6 +282,7 @@ class CMake(object):
             os_build, arch_build, _, _ = get_cross_building_settings(settings)
             os_host = settings.get_safe("os")
             arch_host = settings.get_safe("arch")
+            print("************ os_host=%s os_build=%s arch_host=%s arch_build=%s" % (os_host, os_build, arch_host, arch_build))
             if (os_host and os_build and os_host != os_build) or (arch_host and arch_build and arch_host != arch_build):
                 return
         if not target:
