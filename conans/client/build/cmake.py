@@ -278,12 +278,7 @@ class CMake(object):
         if not self._conanfile.should_test:
             return
         if cross_building(self._conanfile.settings):  
-            settings = self._conanfile.settings
-            os_build, arch_build, _, _ = get_cross_building_settings(settings)
-            os_host = settings.get_safe("os")
-            arch_host = settings.get_safe("arch")
-            if (os_host and os_build and os_host != os_build) or (arch_host and arch_build and arch_host != arch_build):
-                return
+            return
         if not target:
             target = "RUN_TESTS" if self.is_multi_configuration else "test"
 
